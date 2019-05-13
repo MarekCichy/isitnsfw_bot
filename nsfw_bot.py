@@ -22,7 +22,7 @@ def check_clarifai(pic_url):
             score = 1-score
         else:
             pass
-        score = 'Clarifai: '+str(round(100*score))+'% NSFW;\n'
+        score = 'Clarifai: '+str(round(100*score))+'% NSFW\n'
     except:
         score = ''
 
@@ -30,7 +30,7 @@ def check_clarifai(pic_url):
 
 
 def check_deepai(pic_url):
-    # Check a pic's NSFW rating in DeepAi.org
+    # Check a pic's NSFW rating in DeepAI.org
     try:
         r = requests.post(
             "https://api.deepai.org/api/nsfw-detector",
@@ -38,8 +38,8 @@ def check_deepai(pic_url):
                 'image': pic_url, },
             headers={'api-key': deepai_api_key}
         )
-        score = 'DeepAi: ' + \
-            str(round(100*r.json()['output']['nsfw_score']))+'% NSFW;\n'
+        score = 'DeepAI: ' + \
+            str(round(100*r.json()['output']['nsfw_score']))+'% NSFW\n'
     except:
         score = ''
     return score
@@ -50,7 +50,7 @@ def check_sightengine(pic_url):
         client = SightengineClient(sightengine_user, sightengine_secret)
         output = client.check('nudity').set_url(pic_url)
         score = 'Sightengine: ' + \
-            str(round(100*output['nudity']['raw']))+'% NSFW.'
+            str(round(100*output['nudity']['raw']))+'% NSFW'
     except:
         score = ''
     return score
