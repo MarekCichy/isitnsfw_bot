@@ -22,7 +22,7 @@ def check_clarifai(pic_url):
             score = 1-score
         else:
             pass
-        score = 'Clarifai: '+str(round(100*score))+'% NSFW\n'
+        score = f'Clarifai: {round(100*score)}% NSFW\n'
     except:
         score = ''
 
@@ -38,8 +38,7 @@ def check_deepai(pic_url):
                 'image': pic_url, },
             headers={'api-key': deepai_api_key}
         )
-        score = 'DeepAI: ' + \
-            str(round(100*r.json()['output']['nsfw_score']))+'% NSFW\n'
+        score = f'DeepAI: {round(100*r.json()["output"]["nsfw_score"])}% NSFW\n'
     except:
         score = ''
     return score
@@ -49,8 +48,7 @@ def check_sightengine(pic_url):
     try:
         client = SightengineClient(sightengine_user, sightengine_secret)
         output = client.check('nudity').set_url(pic_url)
-        score = 'Sightengine: ' + \
-            str(round(100*output['nudity']['raw']))+'% NSFW'
+        score = f'Sightengine: {round(100*output["nudity"]["raw"])}% NSFW'
     except:
         score = ''
     return score
@@ -67,8 +65,8 @@ def tweet_image_ratings(pic_url, username, status_id):
         with open(filename, 'wb') as image:
             for chunk in request:
                 image.write(chunk)
-    api.update_with_media(filename, status='Is it NSFW, @'+username+'?\n' +
-                          clarifai_score+deepai_score+sightengine_score, in_reply_to_status_id=status_id)
+    api.update_with_media(filename, status=f'Is it NSFW, @{username}?\n{clarifai_score}{deepai_score}{sightengine_score}',
+                          in_reply_to_status_id=status_id)
 
 
 class BotStreamer(tweepy.StreamListener):
